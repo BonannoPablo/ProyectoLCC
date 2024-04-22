@@ -1,0 +1,97 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
+.board {
+  display: grid;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.rowClues {
+  display: grid;
+}
+
+.colClues {
+  display: grid;
+}
+
+.clue {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #b9d6e0;
+  border-radius: 8px;
+  margin: 5px;
+  padding: 3px;
+}
+
+.clueSatisfecha {
+  display: inline-flex;
+  align-items: center;
+  background: #87bb3b;
+  border-radius: 8px;
+  margin: 5px;
+  padding: 3px;
+  color: #87bb3b;
+}
+
+.clue div {
+  margin: 2px
+}
+
+.colClues .clue {
+  flex-direction: column;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+}
+
+.toggle-button {
+  padding: 10px 20px;
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-button.on {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.toggle-button.off {
+  background-color: #f44336;
+  color: white;
+}
