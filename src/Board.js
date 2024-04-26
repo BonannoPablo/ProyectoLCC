@@ -2,6 +2,17 @@ import React from 'react';
 import Square from './Square';
 import Clue from './Clue';
 
+function elementoMaximo(arr) {
+    let max = 0;
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].length > max) {
+            max = arr[i].length;
+        }
+    }
+
+    return max;
+}
+
 function Board({ grid, rowsClues, colsClues, onClick, rowsSat, colsSat }) {
     const numOfRows = grid.length;
     const numOfCols = grid[0].length;
@@ -10,8 +21,8 @@ function Board({ grid, rowsClues, colsClues, onClick, rowsSat, colsSat }) {
             <div
                 className="colClues"
                 style={{
-                    gridTemplateRows: '60px',
-                    gridTemplateColumns: `60px repeat(${numOfCols}, 40px)`
+                    gridTemplateRows: `${elementoMaximo(colsClues) * 30}px`,
+                    gridTemplateColumns: `${elementoMaximo(rowsClues) * 20}px repeat(${numOfCols}, 40px)`
                     /*
                        60px  40px 40px 40px 40px 40px 40px 40px   (gridTemplateColumns)
                       ______ ____ ____ ____ ____ ____ ____ ____
@@ -31,7 +42,7 @@ function Board({ grid, rowsClues, colsClues, onClick, rowsSat, colsSat }) {
                     className="rowClues"
                     style={{
                         gridTemplateRows: `repeat(${numOfRows}, 40px)`,
-                        gridTemplateColumns: '60px'
+                        gridTemplateColumns: `${elementoMaximo(rowsClues) * 20}px`
                         /* IDEM column clues above */
                     }}
                 >

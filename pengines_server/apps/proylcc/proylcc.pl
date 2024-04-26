@@ -5,6 +5,8 @@
 
 :-use_module(library(lists)).
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % replace(?X, +XIndex, +Y, +Xs, -XsY)
@@ -71,7 +73,7 @@ columnaEn(N, [X|Xs], Return):-
 % checkLista(+N, +Lista, -Resto).
 %
 % predicado cascara para checkListaAux, omite primeras apariciones de
-% variables no instanciadas y aparciones de X, para luego llamar a
+% variables no instanciadas y aparciones de #, para luego llamar a
 % checkListaAux.
 % Resto es la sublista que queda luego de las primeras apariciones
 % consecutivas de las X.
@@ -83,10 +85,10 @@ columnaEn(N, [X|Xs], Return):-
 % lista. Solo se verifica las primeras apariciones de # antes de que un
 % _ los separe, osea checkLista(3, ["#","#",_,"#","#","#"]). da falso.
 checkListaAux(0, [], []).
-checkListaAux(0, [X], [_]):- var(X); X = "X".
-checkListaAux(0, [X|Xs], [X|Xs]):- var(X); X = "X".
+checkListaAux(0, [X], [_]):- var(X); X \== "#".
+checkListaAux(0, [X|Xs], [X|Xs]):- var(X); X \== "#".
 checkListaAux(N, [X|Xs], Resto):- N > 0, X == "#", Next is N - 1, checkListaAux(Next, Xs, Resto).
-checkLista(N, [X|Xs], Resto):- ((var(X); X == "X"), checkLista(N, Xs, Resto)); (nonvar(X), checkListaAux(N, [X|Xs], Resto)).
+checkLista(N, [X|Xs], Resto):- ((var(X); X \== "#"), checkLista(N, Xs, Resto)); (nonvar(X), checkListaAux(N, [X|Xs], Resto)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -104,6 +106,12 @@ calcularPista(Pista, Lista, Resultado):- checkPista(Pista, Lista) -> Resultado i
 %
 % checkResto(+Lista).
 %
-% verdadero si la lista solo contiene apariciones de _ ó X.
+% verdadero si la lista solo contiene apariciones de _ Ã³ X.
 checkResto([]).
-checkResto([X|Xs]):- (var(X); X = "X"), checkResto(Xs).
+checkResto([X|Xs]):- (var(X); X \== "#"), checkResto(Xs).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   validarListaClues(+Lista).
+validarListaClues([]).
+validarListaClues([1|Xs]):- validarListaClues(Xs).
