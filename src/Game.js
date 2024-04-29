@@ -15,8 +15,8 @@ const [colsClues, setColsClues] = useState(null);
 const [waiting, setWaiting] = useState(false);
 const [MarcarX, CambiarMarca] = useState(false);
 const [statusText, SetStatusText] = useState("");
-const [rowsSat, setRowsSat] = useState(new Array(7).fill(0));
-const [colsSat, setColsSat] = useState(new Array(7).fill(0));
+const [rowsSat, setRowsSat] = useState(null);
+const [colsSat, setColsSat] = useState(null);
 
 useEffect(() => {
   // Creation of the pengine server instance.    
@@ -57,12 +57,16 @@ function handleServerReady(instance) {
                     [2], [1], [4,1], [1], [4,1], [1], [2]
                   ]
               );
+              setColsSat(new Array(7).fill(0));
+              setRowsSat(new Array(7).fill(0));
           }
           else
           {
               setGrid(response['Grid']);
               setRowsClues(response['RowClues']);
               setColsClues(response['ColumClues']);
+              setColsSat(new Array(response['ColumClues'].length).fill(0));
+              setRowsSat(new Array(response['RowClues'].length).fill(0)); 
           }          
       }
   });
@@ -100,27 +104,12 @@ function handleClick(i, j) {
       const QueryClues = `validarListaClues([${rowsSatAux}]),validarListaClues([${colsSatAux}])`;
       pengine.query(QueryClues, (exito) => {
         if (exito) {
-          console.log("fin");
-        SetStatusText("Ganaste!");
+          SetStatusText("Ganaste!");
         }else{
-          setWaiting(false);}
-      });/*
-      const QueryCluesColumna = `validarListaClues([${colsSatAux}])`;
-      pengine.query(QueryCluesColumna, (exito) => {
-        if (exito) {
-          console.log("C");
-          setExitoCluesColumna(true);
+          setWaiting(false);
+          SetStatusText("");
         }
       });
-      console.log(ExitoCluesColumna, ExitoCluesFila);
-      if (ExitoCluesColumna && ExitoCluesFila) {
-        console.log("fin");
-        SetStatusText("Ganaste!");
-      }
-      else {*/
-        //setWaiting(false);
-        SetStatusText("");
-      
   }
   });
   

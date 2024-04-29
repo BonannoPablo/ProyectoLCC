@@ -12,7 +12,7 @@ export default function ToggleButton({onClick}) {
   
     return (
       <button onClick={handleChange} className={`toggle-button ${isToggled ? 'on' : 'off'}`}>
-            {isToggled ? 'X' : '#'}
+            {isToggled ? '.' : 'X'}
       </button>
     );
   }
