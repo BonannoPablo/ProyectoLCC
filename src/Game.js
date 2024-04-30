@@ -68,6 +68,8 @@ function handleServerReady(instance) {
               setGrid(grilla);
               setRowsClues(pistasFilas);
               setColsClues(pistasColumnas);
+              setColsSat(new Array(pistasFilas.length).fill(0));
+              setRowsSat(new Array(pistasColumnas.length).fill(0));
               let rowsSatAux = new Array(pistasFilas.length).fill(0);
               let colsSatAux = new Array(pistasColumnas.length).fill(0);
 
@@ -75,26 +77,24 @@ function handleServerReady(instance) {
               const grillaS = JSON.stringify(grilla).replaceAll('"_"', '_');
               const rowsCluesS = JSON.stringify(pistasFilas);
               const colsCluesS = JSON.stringify(pistasColumnas);
-              let esperando = false;
               while(!(i === pistasFilas.length && j === pistasColumnas.length)){
-                  esperando = true;
-                  console.log(colsSatAux, j);
+                  let indexI = i;
+                  let indexJ = j;
                   const queryPistas = `checkCumplimientoPistas(${i}, ${j}, ${grillaS},${rowsCluesS},${colsCluesS}, RowSat, ColSat)`;
-                  console.log(queryPistas);
                   pengine.query(queryPistas, (success, response) => {
                     if(success){
-                      esperando = false;
-                      rowsSatAux[i] = response['RowSat'];
-                      colsSatAux[j] = response['ColSat'];
+
+                      rowsSatAux[indexI] = response['RowSat'];
+                      colsSatAux[indexJ] = response['ColSat'];
+                      
+                      setRowsSat(rowsSatAux);
+                      setColsSat(colsSatAux);
                     }
                   });
                   if(i < pistasFilas.length) i++;
                   if(j < pistasColumnas.length) j++;
                 
               };
-
-              setRowsSat(rowsSatAux); 
-              setColsSat(colsSatAux);
           }          
       }
   });
