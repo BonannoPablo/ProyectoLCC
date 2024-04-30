@@ -115,3 +115,16 @@ checkResto([X|Xs]):- (var(X); X \== "#"), checkResto(Xs).
 %   validarListaClues(+Lista).
 validarListaClues([]).
 validarListaClues([1|Xs]):- validarListaClues(Xs).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	hace lo mismo que el put pero sin calcular ni devolver la grilla nueva
+%
+%   checkCumplimientoPistas(+RowN, +ColN, +Grilla, +RowsClues, +ColsClues, -RowSat, -ColSat).
+
+checkCumplimientoPistas(RowN, ColN, Grilla, RowsClues, ColsClues, RowSat, ColSat):-
+	elementoEn(RowN, Grilla, Fila),
+	columnaEn(ColN, Grilla, Columna),
+	elementoEn(RowN, RowsClues, PistaFila),
+	elementoEn(ColN, ColsClues, PistaColumna),
+	calcularPista(PistaFila, Fila, RowSat),
+	calcularPista(PistaColumna, Columna, ColSat).

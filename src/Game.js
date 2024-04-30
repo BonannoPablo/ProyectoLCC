@@ -4,7 +4,7 @@ import Board from './Board';
 import ToggleButton from './ToggleButton';
 
 let pengine;
-let CargarDesdeJavascript = true; //para no tener que reiniciar el server de prolog.
+let CargarDesdeJavascript = false; //para no tener que reiniciar el server de prolog.
 
 function Game() {
 
@@ -62,11 +62,39 @@ function handleServerReady(instance) {
           }
           else
           {
-              setGrid(response['Grid']);
-              setRowsClues(response['RowClues']);
-              setColsClues(response['ColumClues']);
-              setColsSat(new Array(response['ColumClues'].length).fill(0));
-              setRowsSat(new Array(response['RowClues'].length).fill(0)); 
+              let grilla = response['Grid'];
+              let pistasFilas = response['RowClues'];
+              let pistasColumnas = response['ColumClues'];
+              setGrid(grilla);
+              setRowsClues(pistasFilas);
+              setColsClues(pistasColumnas);
+              let rowsSatAux = new Array(pistasFilas.length).fill(0);
+              let colsSatAux = new Array(pistasColumnas.length).fill(0);
+
+              let i = 0, j = 0;
+              const grillaS = JSON.stringify(grilla).replaceAll('"_"', '_');
+              const rowsCluesS = JSON.stringify(pistasFilas);
+              const colsCluesS = JSON.stringify(pistasColumnas);
+              let esperando = false;
+              while(!(i === pistasFilas.length && j === pistasColumnas.length)){
+                  esperando = true;
+                  console.log(colsSatAux, j);
+                  const queryPistas = `checkCumplimientoPistas(${i}, ${j}, ${grillaS},${rowsCluesS},${colsCluesS}, RowSat, ColSat)`;
+                  console.log(queryPistas);
+                  pengine.query(queryPistas, (success, response) => {
+                    if(success){
+                      esperando = false;
+                      rowsSatAux[i] = response['RowSat'];
+                      colsSatAux[j] = response['ColSat'];
+                    }
+                  });
+                  if(i < pistasFilas.length) i++;
+                  if(j < pistasColumnas.length) j++;
+                
+              };
+
+              setRowsSat(rowsSatAux); 
+              setColsSat(colsSatAux);
           }          
       }
   });
@@ -98,7 +126,7 @@ function handleClick(i, j) {
       const colsSatAux = colsSat.slice();
 
       rowsSatAux[i] = rowSat;
-      setRowsSat(rowsSatAux)
+      setRowsSat(rowsSatAux);
       colsSatAux[j] = colSat;
       setColsSat(colsSatAux);
       const QueryClues = `validarListaClues([${rowsSatAux}]),validarListaClues([${colsSatAux}])`;
