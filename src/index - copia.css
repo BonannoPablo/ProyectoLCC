@@ -1,0 +1,159 @@
+* {
+  box-sizing: content-box;
+}
+
+@font-face {
+    font-family: custom;
+    src: url('fonts/Brodille-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding-left: 50px;
+}
+
+.square {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    transition: ease;
+    background: #dcdcdc;
+    border: 1px solid #999;
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+}
+
+.squareMarcado {
+    background: black;
+    font-size: 0px;
+    font-weight: bold;
+    margin-right: -1px;
+    margin-top: -0.01px;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.board {
+  display: grid;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.rowClues {
+  display: grid;
+  justify-items:end;
+}
+
+.colClues {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  align-items: end;
+}
+
+.clue {
+  transition: ease 300ms;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #b9d6e0;
+  border-radius: 8px;
+  margin: 5px;
+  padding: 0px;
+}
+
+.clueSatisfecha {
+    transition: ease 300ms;
+    font-size: 0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #55a754;
+    border-radius: 8px;
+    margin: 5px;
+    padding: 0px;
+    width: 30px;
+    height: 30px;
+}
+
+.clue div {
+  margin: 6px
+}
+
+.clueSatisfecha div {
+    margin: 6px;
+}
+
+.colClues .clue {
+  flex-direction: column;
+}
+
+.colClues .clueSatisfecha {
+    flex-direction: column;
+}
+
+.game {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+  display:grid;
+  align-items: center;
+}
+
+.toggle-button {
+  box-sizing: content-box;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  display: block;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+.titulo {
+    width: 310px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: custom;
+    font-size: 40px;
+    text-shadow: 2px 2px black;
+    color: brown;
+}
+
+.toggle-button.on {
+  background-color: #c1c3c1;
+  color: black;
+}
+
+.toggle-button.off {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dcdcdc;
+    color: black;
+}

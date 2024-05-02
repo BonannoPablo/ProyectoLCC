@@ -1,18 +1,34 @@
 import React from 'react';
-
-function Square({ value, onClick }) {
-    let valueAux;
-    switch(value){
-        case '#': valueAux = 'X'
-            break;
-        case 'X': valueAux = '.'
-            break;
-    }
-    return (
-        <button className="square" onClick={onClick}>
-            {value !== '_' ? valueAux : null}
-        </button>
-    );
-}
-
 export default Square;
+function Square({ value, onClick }) {
+    function crearDesmarcado() {
+        return (
+            <button className='square' onClick={onClick}> {value = ''} </button>
+        );
+    }
+
+    function crearMarcado() {
+        return (
+            <button className='square' onClick={onClick}> {value = ''}
+                <div className='squareMarcado'> </div>
+            </button>
+        );
+    }
+
+    function crearCruzado() {
+        return (
+            <button className='square' onClick={onClick}> {value = 'X'} </button>
+        );
+    }
+
+    function crearCuadrado() {
+        switch (value) {
+            case '#': return crearMarcado();
+            case 'X': return crearCruzado();
+            default: return crearDesmarcado();
+        }
+
+    }
+
+    return crearCuadrado();
+}

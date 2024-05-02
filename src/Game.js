@@ -14,7 +14,7 @@ const [rowsClues, setRowsClues] = useState(null);
 const [colsClues, setColsClues] = useState(null);
 const [waiting, setWaiting] = useState(false);
 const [MarcarX, CambiarMarca] = useState(false);
-const [statusText, SetStatusText] = useState("");
+const [statusText, SetStatusText] = useState("Completa el tablero!");
 const [rowsSat, setRowsSat] = useState(null);
 const [colsSat, setColsSat] = useState(null);
 
@@ -36,10 +36,10 @@ function handleServerReady(instance) {
           {
               setGrid(
                   [
+                      ["#", "_", "_", "_", "_", "_", "_"],
+                      ["#", "_", "_", "_", "_", "_", "_"],
                       ["_", "_", "_", "_", "_", "_", "_"],
-                      ["_", "_", "_", "_", "_", "_", "_"],
-                      ["_", "_", "_", "_", "_", "_", "_"],
-                      ["_", "_", "_", "_", "_", "_", "_"],
+                      ["#", "_", "_", "_", "_", "_", "_"],
                       ["_", "_", "_", "_", "_", "_", "_"],
                       ["_", "_", "_", "_", "_", "_", "_"],
                       ["_", "_", "_", "_", "_", "_", "_"]
@@ -48,13 +48,13 @@ function handleServerReady(instance) {
 
               setRowsClues(
                   [
-                    [1,1], [1,1], [1,1], [1,1,1,1], [1,1], [1,1], [3]
+                    [1,1,1,1], [0], [1], [1], [1], [1], [1]
                   ]
               );
 
               setColsClues(
                   [
-                    [2], [1], [4,1], [1], [4,1], [1], [2]
+                    [1], [1], [1,3], [1], [1,4,5], [1], [1]
                   ]
               );
               setColsSat(new Array(7).fill(0));
@@ -93,7 +93,6 @@ function handleServerReady(instance) {
                   });
                   if(i < pistasFilas.length) i++;
                   if(j < pistasColumnas.length) j++;
-                
               };
           }          
       }
@@ -109,7 +108,7 @@ function handleClick(i, j) {
   // No action on click if we are waiting.
   if (waiting) {
     return;
-  }
+    }
   // Build Prolog query to make a move and get the new satisfacion status of the relevant clues.    
   const squaresS = JSON.stringify(grid).replaceAll('"_"', '_'); // Remove quotes for variables. squares = [["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]]
   const content = MarcarX? 'X' : '#'; // Content to put in the clicked square.
@@ -119,7 +118,7 @@ function handleClick(i, j) {
   setWaiting(true);
   pengine.query(queryS, (success, response) => {
     if (success) {
-      setGrid(response['ResGrid']);
+        setGrid(response['ResGrid']);
       const rowSat = response['RowSat'];
       const colSat = response['ColSat'];
       const rowsSatAux = rowsSat.slice();
@@ -135,7 +134,7 @@ function handleClick(i, j) {
           SetStatusText("Ganaste!");
         }else{
           setWaiting(false);
-          SetStatusText("");
+          SetStatusText("Completa el tablero!");
         }
       });
   }
@@ -149,6 +148,8 @@ if (!grid) {
 
 return (
   <div className="game">
+        <div className="titulo">{"Nonograma"} </div>
+    
     <Board
      grid={grid}
      rowsClues={rowsClues}
@@ -157,8 +158,8 @@ return (
      rowsSat = {rowsSat}
      colsSat = {colsSat}
     />
-    <div className="game-info">
-            {statusText}
+        <div className="game-info"> {statusText}
+            <div className="space" style={{ width: '10px', height: '10px'}} > </div>
             <ToggleButton
                 onClick={() => cambiarMarca()}
             />
